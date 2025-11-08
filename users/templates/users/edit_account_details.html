@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Редактировать данные{% endblock %}
+{% block content %}
+<h2>Редактировать учётные данные</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" formaction="{% url 'users:update_account_details' %}">
+        Сохранить изменения
+    </button>
+</form>
+
+{% endblock %}

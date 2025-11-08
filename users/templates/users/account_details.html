@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Учётные данные{% endblock %}
+{% block content %}
+
+<h2 style="margin-top:0;">Учётные данные</h2>
+<div style="
+    background:white;
+    border-radius:10px;
+    padding:25px;
+    border:1px solid #eee;
+    max-width:600px;
+">
+    <table style="width:100%; border-collapse:collapse;">
+        <tr><td style="padding:8px 0; color:#666;">Email:</td><td style="padding:8px 0;">{{ user.email }}</td></tr>
+        <tr><td style="padding:8px 0; color:#666;">Телефон:</td><td style="padding:8px 0;">{{ user.phone }}</td></tr>
+        <tr><td style="padding:8px 0; color:#666;">Страна:</td><td style="padding:8px 0;">{{ user.country }}</td></tr>
+        <tr><td style="padding:8px 0; color:#666;">Регион/Область:</td><td style="padding:8px 0;">{{ user.region }}</td></tr>
+        <tr><td style="padding:8px 0; color:#666;">Город:</td><td style="padding:8px 0;">{{ user.city }}</td></tr>
+        <tr><td style="padding:8px 0; color:#666;">Адрес:</td><td style="padding:8px 0;">{{ user.address1 }}</td></tr>
+        <tr><td style="padding:8px 0; color:#666;">Отделение доставки:</td><td style="padding:8px 0;">{{ user.shipping_location }}</td></tr>
+        <tr><td style="padding:8px 0; color:#666;">Способ доставки:</td><td style="padding:8px 0;">{{ user.get_shipping_method_display }}</td></tr>
+    </table>
+
+    <div style="margin-top:25px;">
+        <a href="{% url 'users:edit_account_details' %}"
+           style="background:#0d6efd; color:white; text-decoration:none; padding:10px 18px; border-radius:6px;">
+            Изменить данные
+        </a>
+    </div>
+</div>
+
+{% endblock %}
