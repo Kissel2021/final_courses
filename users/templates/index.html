@@ -2,27 +2,71 @@
 {% block title %}Главная{% endblock %}
 {% block content %}
 
-<div style="text-align:center; padding:80px 20px;">
-    {% if user.is_authenticated %}
-        <h1>Привет, {{ user.first_name }}!</h1>
-        <p>Это ваша главная страница личного кабинета.</p>
-        <p>
-            <a href="{% url 'users:profile' %}" style="padding:12px 20px; background:#0d6efd; color:#fff; border-radius:6px; text-decoration:none;">
-                Перейти в профиль
-            </a>
-        </p>
-    {% else %}
-        <h1>Добро пожаловать!</h1>
-        <p>Войдите в ваш аккаунт, чтобы получить доступ к возможностям.</p>
-        <p>
-            <a href="{% url 'users:login' %}" style="padding:12px 20px; background:#0d6efd; color:#fff; border-radius:6px; text-decoration:none; margin-right:10px;">
-                Войти
-            </a>
-            <a href="{% url 'users:register' %}" style="padding:12px 20px; background:#198754; color:#fff; border-radius:6px; text-decoration:none;">
-                Регистрация
-            </a>
-        </p>
-    {% endif %}
+{% if user.is_authenticated %}
+<h2 style="margin-top:0;">Привет, {{ user.first_name }} 👋</h2>
+
+<div id="chat-window" style="padding:20px; background:white; border-radius:10px; max-width:800px; margin:auto;
+     height:500px; overflow-y:auto; border:1px solid #ddd;">
 </div>
+
+<input id="user-input" type="text" placeholder="Напиши жанры (пример: хоррор, кооп)"
+   style="width:100%; margin-top:10px; padding:12px; border-radius:8px; border:1px solid #ccc;">
+<button id="send-btn"
+  style="margin-top:10px; padding:10px 18px; background:#0d6efd; color:white; border:none; border-radius:6px;">
+  Отправить
+</button>
+
+<script>
+const chatWindow = document.getElementById("chat-window");
+const inp = document.getElementById("user-input");
+const btn = document.getElementById("send-btn");
+
+function addUserMsg(t) {
+  chatWindow.innerHTML += `<div style="text-align:right; margin:8px 0;">
+      <span style="display:inline-block; background:#0d6efd; color:white; padding:8px 12px; border-radius:12px;">
+      ${t}</span></div>`;
+}
+
+function addBotMsg(t) {
+  chatWindow.innerHTML += `<div style="text-align:left; margin:8px 0;">
+     <div style="display:inline-block; background:#eee; padding:10px; border-radius:12px;
+         max-width:80%; text-align:left;">${t}</div></div>`;
+}
+
+function send(){
+  let q = inp.value;
+  if(!q) return;
+  addUserMsg(q);
+  inp.value = "";
+  fetch("{% url 'recommendations:ask_game' %}", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({query:q})
+  }).then(r=>r.json()).then(data=>{
+    addBotMsg(data.answer);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  });
+}
+
+btn.onclick = send;
+inp.onkeypress = (e)=>{ if(e.key==="Enter") send();}
+</script>
+
+{% else %}
+
+    <h2>Добро пожаловать!</h2>
+    <p>Чтобы получать подборки игр — войдите в аккаунт.</p>
+
+    <a href="{% url 'users:login' %}"
+       style="background:#0d6efd;color:white;padding:10px 18px;border-radius:6px;text-decoration:none;">
+       Войти
+    </a>
+
+    <a href="{% url 'users:register' %}"
+       style="margin-left:10px;background:#198754;color:white;padding:10px 18px;border-radius:6px;text-decoration:none;">
+       Регистрация
+    </a>
+
+{% endif %}
 
 {% endblock %}

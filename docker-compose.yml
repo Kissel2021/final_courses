@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # 1. СЕРВИС REDIS (брокер для Celery)
+  redis:
+    image: redis:7-alpine # Легковесный официальный образ Redis
+    container_name: recommendation_redis
+    ports:
+      - "6379:6379" # Порт по умолчанию для Redis
+    volumes:
+      # Опционально: сохранение данных Redis на диск (для продакшна)
+      - redis_data:/data 
+    restart: always # Всегда перезапускать, если упал
+
+  # 2. СЕРВИС CELERY WORKER (будет использовать Redis)
+  celery_worker:
+    build: . # Предполагаем, что у вас есть Dockerfile для вашего Django-приложения
+    command: celery -A recommendation_user worker -l info # Замените project_name
+    volumes:
+      - .:/app
+    depends_on:
+      - redis # Убедиться, что Redis запущен до Celery
+    environment:
+      # Указываем Celery, что брокер находится по имени сервиса 'redis'
+      - CELERY_BROKER_URL=redis://redis:6379/0 
+      - C_FORCE_ROOT=true # Может понадобиться для работы Celery в контейнере
+
+# Хранилище для постоянных данных
+volumes:
+  redis_data:
+

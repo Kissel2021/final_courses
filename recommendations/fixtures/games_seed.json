@@ -1,0 +1,139 @@
+[
+  {
+    "model": "recommendations.category",
+    "pk": 1,
+    "fields": { "name": "Action" }
+  },
+  {
+    "model": "recommendations.category",
+    "pk": 2,
+    "fields": { "name": "RPG" }
+  },
+  {
+    "model": "recommendations.category",
+    "pk": 3,
+    "fields": { "name": "Strategy" }
+  },
+  {
+    "model": "recommendations.category",
+    "pk": 4,
+    "fields": { "name": "Puzzle" }
+  },
+
+
+  {
+    "model": "recommendations.genretag",
+    "pk": 1,
+    "fields": { "name": "Horror", "synonyms": "ужасы;страшилки;страшная;horror" }
+  },
+  {
+    "model": "recommendations.genretag",
+    "pk": 2,
+    "fields": { "name": "Co-op", "synonyms": "кооп;кооператив;coop" }
+  },
+  {
+    "model": "recommendations.genretag",
+    "pk": 3,
+    "fields": { "name": "Survival", "synonyms": "выживание;выживалка;survival" }
+  },
+  {
+    "model": "recommendations.genretag",
+    "pk": 4,
+    "fields": { "name": "Atmosphere", "synonyms": "атмосферная;атмосфера;atmospheric" }
+  },
+  {
+    "model": "recommendations.genretag",
+    "pk": 5,
+    "fields": { "name": "Detective", "synonyms": "детектив;расследование;detective" }
+  },
+
+
+  {
+    "model": "recommendations.game",
+    "pk": 1,
+    "fields": {
+      "title": "Phasmophobia",
+      "steam_url": "https://store.steampowered.com/app/739630/Phasmophobia/",
+      "description": "кооперативный хоррор про охоту на призраков",
+      "category": 1,
+      "tags": [1, 2]
+    }
+  },
+  {
+    "model": "recommendations.game",
+    "pk": 2,
+    "fields": {
+      "title": "The Forest",
+      "steam_url": "https://store.steampowered.com/app/242760/The_Forest/",
+      "description": "survival с элементами хоррора и строительством",
+      "category": 1,
+      "tags": [1, 2, 3]
+    }
+  },
+  {
+    "model": "recommendations.game",
+    "pk": 3,
+    "fields": {
+      "title": "Portal 2",
+      "steam_url": "https://store.steampowered.com/app/620/Portal_2/",
+      "description": "лучшая кооперативная головоломка с портальной пушкой",
+      "category": 4,
+      "tags": [2]
+    }
+  },
+  {
+    "model": "recommendations.game",
+    "pk": 4,
+    "fields": {
+      "title": "Stardew Valley",
+      "steam_url": "https://store.steampowered.com/app/413150/Stardew_Valley/",
+      "description": "уютная ферма, расслабляет и затягивает",
+      "category": 2,
+      "tags": [4]
+    }
+  },
+  {
+    "model": "recommendations.game",
+    "pk": 5,
+    "fields": {
+      "title": "DARK SOULS III",
+      "steam_url": "https://store.steampowered.com/app/374320/DARK_SOULS_III/",
+      "description": "хардкорный action-RPG для любителей челленджа",
+      "category": 2,
+      "tags": []
+    }
+  },
+  {
+    "model": "recommendations.game",
+    "pk": 6,
+    "fields": {
+      "title": "Cities: Skylines",
+      "steam_url": "https://store.steampowered.com/app/255710/Cities_Skylines/",
+      "description": "построй свой идеальный город",
+      "category": 3,
+      "tags": []
+    }
+  },
+  {
+    "model": "recommendations.game",
+    "pk": 7,
+    "fields": {
+      "title": "DOOM Eternal",
+      "steam_url": "https://store.steampowered.com/app/782330/DOOM_Eternal/",
+      "description": "адреналиновый шутер, разрывает мозг скоростью",
+      "category": 1,
+      "tags": []
+    }
+  },
+  {
+    "model": "recommendations.game",
+    "pk": 8,
+    "fields": {
+      "title": "Detroit: Become Human",
+      "steam_url": "https://store.steampowered.com/app/1222140/Detroit_Become_Human/",
+      "description": "интерактивный фильм — сильный сюжет и выборы",
+      "category": 2,
+      "tags": [4, 5]
+    }
+  }
+]
