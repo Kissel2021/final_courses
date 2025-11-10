@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model, authenticate
 from django.utils.html import strip_tags
 from django.core.validators import RegexValidator
+import logging
 
 User = get_user_model()
 
@@ -131,8 +132,8 @@ class CustomUserUpdateForm(forms.ModelForm):
                                               'placeholder': 'Страна'}),
             'region': forms.TextInput(attrs={'class': 'input-register form-control',
                                              'placeholder': 'ПГТ/село'}),
-            'shipping_method': forms.TextInput(attrs={'class': 'input-register form-control',
-                                               'placeholder': 'Служба доставки'}),
+            'shipping_method': forms.Select(attrs={'class': 'input-register form-control',
+                                            'placeholder': 'Служба доставки'}),
             'shipping_location': forms.TextInput(attrs={'class': 'input-register form-control',
                                                  'placeholder': '№ отделения'}),
             'postal_code': forms.TextInput(attrs={'class': 'input-register form-control',
@@ -155,4 +156,34 @@ class CustomUserUpdateForm(forms.ModelForm):
             if cleaned_data.get(field):
                 cleaned_data[field] = strip_tags(cleaned_data[field])
 
+        return cleaned_data
+
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(
+        label="Email",
+        max_length=30,
+        widget=forms.EmailInput(attrs={'class': 'input-register form-control',
+                                       'placeholder': 'Ваш email'})
+    )
+
+
+class PasswordResetConfirmForm(forms.Form):
+    new_password1 = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput(attrs={'class': 'input-register form-control',
+                                          'placeholder': 'Новый пароль'})
+    )
+    new_password2 = forms.CharField(
+        label="Confirm New Password",
+        widget=forms.PasswordInput(attrs={'class': 'input-register form-control',
+                                          'placeholder': 'Подтвердите пароль'})
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise forms.ValidationError("Пароли не совпадают.")
         return cleaned_data

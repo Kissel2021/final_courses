@@ -1,14 +1,33 @@
 {% extends "base.html" %}
+
 {% block title %}Редактировать данные{% endblock %}
+
 {% block content %}
 <h2>Редактировать учётные данные</h2>
 
-<form method="post">
+<form method="post" action="{% url 'users:update_account_details' %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" formaction="{% url 'users:update_account_details' %}">
-        Сохранить изменения
-    </button>
-</form>
 
+    {% for field in form %}
+        {% if field.name not in 'email,marketing_consent1,marketing_consent2' %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="error">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <div class="button-container">
+        <button type="submit">Сохранить</button>
+
+        <a href="{% url 'users:account_details' %}"
+           style="padding:6px 12px; border:1px solid #ccc; border-radius:6px; display:inline-block; text-decoration:none; color:#000;">
+            Отмена
+        </a>
+    </div>
+
+</form>
 {% endblock %}

@@ -2,24 +2,26 @@
 {% block title %}Учётные данные{% endblock %}
 {% block content %}
 
-<h2 style="margin-top:0;">Учётные данные</h2>
-<div style="
-    background:white;
-    border-radius:10px;
-    padding:25px;
-    border:1px solid #eee;
-    max-width:600px;
-">
-    <table style="width:100%; border-collapse:collapse;">
-        <tr><td style="padding:8px 0; color:#666;">Email:</td><td style="padding:8px 0;">{{ user.email }}</td></tr>
-        <tr><td style="padding:8px 0; color:#666;">Телефон:</td><td style="padding:8px 0;">{{ user.phone }}</td></tr>
-        <tr><td style="padding:8px 0; color:#666;">Страна:</td><td style="padding:8px 0;">{{ user.country }}</td></tr>
-        <tr><td style="padding:8px 0; color:#666;">Регион/Область:</td><td style="padding:8px 0;">{{ user.region }}</td></tr>
-        <tr><td style="padding:8px 0; color:#666;">Город:</td><td style="padding:8px 0;">{{ user.city }}</td></tr>
-        <tr><td style="padding:8px 0; color:#666;">Адрес:</td><td style="padding:8px 0;">{{ user.address1 }}</td></tr>
-        <tr><td style="padding:8px 0; color:#666;">Отделение доставки:</td><td style="padding:8px 0;">{{ user.shipping_location }}</td></tr>
-        <tr><td style="padding:8px 0; color:#666;">Способ доставки:</td><td style="padding:8px 0;">{{ user.get_shipping_method_display }}</td></tr>
-    </table>
+<div class="address-box" style="background:white; border-radius:10px; padding:20px; border:1px solid #eee; max-width:600px;">
+    <p class="default-address" style="font-size:18px; font-weight:600; margin-bottom:10px;">Информация для доставки</p>
+
+    <p>{{ user.first_name }} {{ user.last_name }}{% if user.patronymic %} {{ user.patronymic }}{% endif %}</p>
+
+    {% if user.email %}<p>{{ user.email }}</p>{% endif %}
+    {% if user.phone %}<p>{{ user.phone }}</p>{% endif %}
+    {% if user.country %}<p>{{ user.country }}</p>{% endif %}
+    {% if user.region %}<p>{{ user.region }}</p>{% endif %}
+    {% if user.city %}<p>{{ user.city }}</p>{% endif %}
+    {% if user.address1 %}<p>{{ user.address1 }}</p>{% endif %}
+    {% if user.address2 %}<p>{{ user.address2 }}</p>{% endif %}
+    {% if user.postal_code %}<p>{{ user.postal_code }}</p>{% endif %}
+
+    <p><strong>Способ доставки:</strong> {{ user.get_shipping_method_display|default:"—" }}</p>
+    <p><strong>Отделение:</strong> №{{ user.shipping_location|default:"—" }}</p>
+
+    {% if not user.first_name and not user.last_name and not user.country and not user.city and not user.address1 and not user.phone %}
+        <p style="color:#888;">Данные для доставки не заполнены.</p>
+    {% endif %}
 
     <div style="margin-top:25px;">
         <a href="{% url 'users:edit_account_details' %}"

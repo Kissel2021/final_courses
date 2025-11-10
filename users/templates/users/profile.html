@@ -1,9 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Профиль{% endblock %}
+{% block title %}
+    Профиль
+{% endblock %}
 {% block content %}
-<h2>Ваш профиль</h2>
-<p><strong>Email:</strong> {{ user.email }}</p>
-<p><strong>Имя:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-
-<a href="{% url 'users:account_details' %}">Посмотреть учётные данные</a>
+    <h1>Hi, {{ request.user.first_name|upper }} {{ request.user.last_name|upper }}</h1>
+    <div class="profile-section">
+        <h2>Профиль</h2>
+        <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
+        <p>{{ request.user.email }}</p>
+        <p>{{ request.user.country|default:"Not specified" }}</p>
+        <a href="{% url 'users:edit_account_details' %}" class="btn btn-primary">
+            Редактировать
+        </a>
+        <div id="account-details-content"></div>
+    </div>
+    <a href="{% url 'users:logout' %}" class="link">Выйти</a>
 {% endblock %}
